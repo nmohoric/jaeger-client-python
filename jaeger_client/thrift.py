@@ -60,6 +60,8 @@ def port_to_int(port):
 def id_to_int(big_id):
     # zipkincore.thrift defines ID fields as i64, which is signed,
     # therefore we convert large IDs (> 2^63) to negative longs
+    if big_id is None:
+      return None
     if big_id > _max_signed_id:
         big_id -= _max_unsigned_id
     return big_id
@@ -116,7 +118,7 @@ def timestamp_micros(ts):
     :param ts:
     :return:
     """
-    return long(ts * 1000000)
+    return int(ts * 1000000)
 
 
 def make_zipkin_spans(spans):
